@@ -18,7 +18,7 @@ object FullDownloadManager {
         // 2. modloader perfil
         when (modLoader) {
             ModLoader.FABRIC -> { val lv = ModLoaderManager.fabricVersions(mc).first(); ModLoaderManager.installFabric(mc, lv, base, log) }
-            ModLoader.FORGE -> ModLoaderManager.installForge(mc, base, log)
+            ModLoader.FORGE -> { val fv = ModLoaderManager.forgeVersions(mc).firstOrNull() ?: "latest"; ModLoaderManager.installForge(mc, fv, base, log) }
             ModLoader.NEOFORGE -> ModLoaderManager.installNeoForge(mc, base, log)
             ModLoader.QUILT -> ModLoaderManager.installQuilt(mc, base, log)
             else -> {}

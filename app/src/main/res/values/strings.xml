@@ -2,6 +2,10 @@
     <string name="app_name">Mikael Launcher</string>
     <string name="play">JOGAR (PojavEngine)</string>
     <string name="download">Baixar versão</string>
+    <string name="forge_label">Versão do Forge</string>
+    <string name="optifine_label">Versão do OptiFine</string>
+    <string name="download_forge_opti">Baixar Forge + OptiFine</string>
+    <string name="open_opti_page">Abrir página OptiFine</string>
     <string name="download_all">Baixar TUDO no celular</string>
     <string name="add_account">Criar / Adicionar conta</string>
     <string name="ms_login">Entrar com Microsoft</string>

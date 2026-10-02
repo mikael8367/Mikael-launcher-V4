@@ -1,5 +1,7 @@
 package com.mikael.launcher
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spinnerAccType: Spinner
     private lateinit var spinnerVersion: Spinner
     private lateinit var spinnerModloader: Spinner
+    private lateinit var spinnerForge: Spinner
+    private lateinit var spinnerOpti: Spinner
+    private var forgeList: List<String> = listOf("latest")
+    private var optiList: List<String> = listOf("HD_U_I6")
     private lateinit var accounts: MutableList<GameAccount>
     private lateinit var accManager: AccountManager
 
@@ -41,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         val inputPass = findViewById<EditText>(R.id.inputPass)
         spinnerVersion = findViewById(R.id.spinnerVersion)
         spinnerModloader = findViewById(R.id.spinnerModloader)
+        spinnerForge = findViewById(R.id.spinnerForge)
+        spinnerOpti = findViewById(R.id.spinnerOptiFine)
+        val btnForgeOpti = findViewById<Button>(R.id.btnForgeOpti)
+        val btnOptiPage = findViewById<Button>(R.id.btnOptiPage)
         val seekRam = findViewById<SeekBar>(R.id.seekRam)
         val btnPlay = findViewById<Button>(R.id.btnPlay)
         val btnDownload = findViewById<Button>(R.id.btnDownload)
@@ -57,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         spinnerAccType.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, types)
         spinnerModloader.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, loaderNames)
         refreshVersionsUI(); refreshAccounts()
+        refreshForgeOpti()
+        spinnerVersion.onItemSelectedListener = sel { refreshForgeOpti() }
 
         spinnerAccType.onItemSelectedListener = sel { pos ->
             inputUser.visibility = if (pos == 0) android.view.View.VISIBLE else android.view.View.GONE
@@ -106,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                     when (loader) {
                         ModLoader.VANILLA -> runOnUiThread { log("Vanilla pronta: $mc") }
                         ModLoader.FABRIC -> { val lv = ModLoaderManager.fabricVersions(mc).first(); ModLoaderManager.installFabric(mc, lv, baseDir()) { s -> runOnUiThread { log(s) } } }
-                        ModLoader.FORGE -> ModLoaderManager.installForge(mc, baseDir()) { s -> runOnUiThread { log(s) } }
+                        ModLoader.FORGE -> { val fv = forgeList.getOrNull(spinnerForge.selectedItemPosition) ?: "latest"; ModLoaderManager.installForge(mc, fv, baseDir()) { s -> runOnUiThread { log(s) } } }
                         ModLoader.NEOFORGE -> ModLoaderManager.installNeoForge(mc, baseDir()) { s -> runOnUiThread { log(s) } }
                         ModLoader.QUILT -> ModLoaderManager.installQuilt(mc, baseDir()) { s -> runOnUiThread { log(s) } }
                     }
@@ -125,12 +137,35 @@ class MainActivity : AppCompatActivity() {
             }.start()
         }
 
+        btnOptiPage.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(ModLoaderManager.optifinePageUrl())))
+            log("Pagina OptiFine aberta: baixe o jar da sua versao e toque em Baixar Forge + OptiFine p/ importar.")
+        }
+
+        btnForgeOpti.setOnClickListener {
+            val mc = vanilla[spinnerVersion.selectedItemPosition].id
+            val forge = forgeList.getOrNull(spinnerForge.selectedItemPosition) ?: "latest"
+            val opti = optiList.getOrNull(spinnerOpti.selectedItemPosition) ?: optiList.first()
+            log("Forge $forge + OptiFine $opti p/ $mc ...")
+            Thread {
+                try {
+                    ModLoaderManager.installForge(mc, forge, baseDir()) { m -> runOnUiThread { log(m) } }
+                    val ok = ModLoaderManager.importOptifineFromDownload(mc, opti, baseDir()) { m -> runOnUiThread { log(m) } }
+                    runOnUiThread { if (ok) log("Pronto: jogue com Forge + OptiFine!") }
+                } catch (e: Exception) { runOnUiThread { log("Erro: ${e.message}") } }
+            }.start()
+        }
+
         btnPlay.setOnClickListener {
             if (accounts.isEmpty()) { log("Crie uma conta"); return@setOnClickListener }
             val acc = accounts[spinnerAccounts.selectedItemPosition]
             val mc = vanilla[spinnerVersion.selectedItemPosition].id
             val loader = ModLoader.values()[spinnerModloader.selectedItemPosition]
-            val loaderVer = if (loader == ModLoader.FABRIC) "0.16.9" else ""
+            val loaderVer = when (loader) {
+                ModLoader.FABRIC -> "0.16.9"
+                ModLoader.FORGE -> forgeList.getOrNull(spinnerForge.selectedItemPosition) ?: "latest"
+                else -> ""
+            }
             PojavEngine.launch(acc, mc, seekRam.progress, loader, loaderVer) { runOnUiThread { log(it) } }
         }
     }
@@ -139,6 +174,21 @@ class MainActivity : AppCompatActivity() {
         accounts = accManager.getAll()
         spinnerAccounts.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, accounts)
     }
+    private fun refreshForgeOpti() {
+        val mc = try { vanilla[spinnerVersion.selectedItemPosition].id } catch (e: Exception) { vanilla.first().id }
+        optiList = ModLoaderManager.optifineEditions(mc)
+        spinnerOpti.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, optiList)
+        log("OptiFine p/ $mc: ${optiList.size} edicoes")
+        Thread {
+            val fv = ModLoaderManager.forgeVersions(mc)
+            runOnUiThread {
+                forgeList = if (fv.isEmpty()) listOf("latest") else fv
+                spinnerForge.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, forgeList)
+                log(if (fv.isEmpty()) "Forge: sem conexao (usando latest)" else "Forge p/ $mc: ${fv.size} versoes")
+            }
+        }.start()
+    }
+
     private fun refreshVersionsUI() {
         spinnerVersion.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, vanilla.map { it.id })
     }
