@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:layout_width="240dp"
+        android:layout_height="72dp"
+        android:src="@drawable/app_banner"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MIKAEL LAUNCHER"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/accounts_label" android:layout_marginTop="12dp" />
+    <Spinner android:id="@+id/spinnerAccounts"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
+    <Spinner android:id="@+id/spinnerAccType"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+    <EditText android:id="@+id/inputUsername"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="@string/username_hint" />
+    <EditText android:id="@+id/inputEmail"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="@string/email_hint" android:inputType="textEmailAddress" />
+    <EditText android:id="@+id/inputPass"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="@string/pass_hint" android:inputType="textPassword" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="8dp">
+        <Button android:id="@+id/btnAdd"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:text="@string/add_account" />
+        <Button android:id="@+id/btnRemove"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/remove" />
+    </LinearLayout>
+    <Button android:id="@+id/btnMicrosoft"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/ms_login" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/version_label" android:layout_marginTop="12dp" />
+    <Spinner android:id="@+id/spinnerVersion"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/modloader_label" android:layout_marginTop="8dp" />
+    <Spinner android:id="@+id/spinnerModloader"
+        android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="8dp">
+        <Button android:id="@+id/btnDownload"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:text="@string/download" />
+        <Button android:id="@+id/btnRefreshVersions"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="↻" />
+    </LinearLayout>
+
+    <TextView android:id="@+id/labelRam"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/ram_label" android:layout_marginTop="12dp" />
+    <SeekBar android:id="@+id/seekRam"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:max="6144" android:min="1024" android:progress="2048" />
+    <Button android:id="@+id/btnDownloadAll"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/download_all" />
+    <Button android:id="@+id/btnPlay"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/play" android:layout_marginTop="16dp" />
+    <TextView android:id="@+id/txtLog"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:fontFamily="monospace" android:text="@string/log_idle"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Mikael Launcher</string>
+    <string name="play">JOGAR (PojavEngine)</string>
+    <string name="download">Baixar versão</string>
+    <string name="download_all">Baixar TUDO no celular</string>
+    <string name="add_account">Criar / Adicionar conta</string>
+    <string name="ms_login">Entrar com Microsoft</string>
+    <string name="remove">Remover</string>
+    <string name="username_hint">Nick (offline)</string>
+    <string name="email_hint">Email / login (Microsoft / ely.by)</string>
+    <string name="pass_hint">Senha (ely.by) ou Token MC (Microsoft manual)</string>
+    <string name="version_label">Versão Vanilla</string>
+    <string name="modloader_label">Modloader</string>
+    <string name="ram_label">RAM (MB)</string>
+    <string name="accounts_label">Conta selecionada</string>
+    <string name="log_idle">Escolha conta + versão e baixe antes de jogar.</string>
+</resources>
