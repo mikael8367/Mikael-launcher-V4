@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var txtLog: TextView
     private lateinit var labelRam: TextView
+    private lateinit var progress: ProgressBar
     private lateinit var spinnerAccounts: Spinner
     private lateinit var spinnerAccType: Spinner
     private lateinit var spinnerVersion: Spinner
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         val btnMs = findViewById<Button>(R.id.btnMicrosoft)
         txtLog = findViewById(R.id.txtLog)
         labelRam = findViewById(R.id.labelRam)
+        progress = findViewById(R.id.downloadProgress)
         spinnerAccounts = findViewById(R.id.spinnerAccounts)
         spinnerAccType = findViewById(R.id.spinnerAccType)
 
@@ -87,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             when (spinnerAccType.selectedItemPosition) {
                 0 -> { val n = inputUser.text.toString().ifBlank { "Mikael" }; accManager.add(GameAccount(AccountType.OFFLINE, n)); refreshAccounts(); log("Conta offline: $n") }
                 1 -> { val t = inputPass.text.toString(); if (t.isBlank()) log("Microsoft: cole o Token MC ou use o botao Microsoft.") else { val n = inputEmail.text.toString().substringBefore("@"); accManager.add(MicrosoftAuth.fromManual(n, t, "")); refreshAccounts(); log("Microsoft manual: $n") } }
-                2 -> { val l = inputEmail.text.toString(); val p = inputPass.text.toString(); if (l.isBlank() || p.isBlank()) { log("ely.by: preencha login/senha") } else { log("Conectando ely.by..."); Thread { try { val a = ElyByAuth.login(l, p); runOnUiThread { accManager.add(a); refreshAccounts(); log("ely.by: ${a.username}") } } catch (e: Exception) { runOnUiThread { log("Falha ely.by: ${e.message}") } } }.start() } }
+                2 -> { val l = inputEmail.text.toString(); val p = inputPass.text.toString(); if (l.isBlank() || p.isBlank()) { log("ely.by: preencha login/senha") } else { log("Conectando ely.by..."); progress.visibility = android.view.View.VISIBLE; Thread { try { val a = ElyByAuth.login(l, p); runOnUiThread { progress.visibility = android.view.View.GONE; accManager.add(a); refreshAccounts(); log("ely.by: ${a.username}") } } catch (e: Exception) { runOnUiThread { progress.visibility = android.view.View.GONE; log("Falha ely.by: ${e.message}") } } }.start() } }
             }
         }
         btnRemove.setOnClickListener {
@@ -100,9 +102,10 @@ class MainActivity : AppCompatActivity() {
 
         btnRefresh.setOnClickListener {
             log("Buscando Vanilla (piston-meta)...")
+            progress.visibility = android.view.View.VISIBLE
             Thread {
-                try { vanilla = VersionManager.fetchVanilla(); runOnUiThread { refreshVersionsUI(); log("${vanilla.size} versoes Vanilla") } }
-                catch (e: Exception) { runOnUiThread { log("Falha manifest: ${e.message} (usando lista local)") } }
+                try { vanilla = VersionManager.fetchVanilla(); runOnUiThread { progress.visibility = android.view.View.GONE; refreshVersionsUI(); log("${vanilla.size} versoes Vanilla") } }
+                catch (e: Exception) { runOnUiThread { progress.visibility = android.view.View.GONE; log("Falha manifest: ${e.message} (usando lista local)") } }
             }.start()
         }
 
@@ -110,10 +113,11 @@ class MainActivity : AppCompatActivity() {
             val mc = vanilla[spinnerVersion.selectedItemPosition].id
             val loader = ModLoader.values()[spinnerModloader.selectedItemPosition]
             log("Download $mc + $loader ...")
+            progress.visibility = android.view.View.VISIBLE
             Thread {
                 try {
                     val v = vanilla[spinnerVersion.selectedItemPosition]
-                    if (v.url.isNotBlank()) VersionManager.downloadClient(v.id, v.url, baseDir()) { log(it) }
+                    if (v.url.isNotBlank()) VersionManager.downloadClient(v.id, v.url, baseDir()) { m -> runOnUiThread { log(m) } }
                     else log("Sem URL manifest (offline) — pulando client.jar, indo p/ modloader")
                     when (loader) {
                         ModLoader.VANILLA -> runOnUiThread { log("Vanilla pronta: $mc") }
@@ -122,8 +126,8 @@ class MainActivity : AppCompatActivity() {
                         ModLoader.NEOFORGE -> ModLoaderManager.installNeoForge(mc, baseDir()) { s -> runOnUiThread { log(s) } }
                         ModLoader.QUILT -> ModLoaderManager.installQuilt(mc, baseDir()) { s -> runOnUiThread { log(s) } }
                     }
-                    runOnUiThread { log("Download concluido: $mc + $loader") }
-                } catch (e: Exception) { runOnUiThread { log("Erro download: ${e.message}") } }
+                    runOnUiThread { progress.visibility = android.view.View.GONE; log("Download concluido: $mc + $loader") }
+                } catch (e: Exception) { runOnUiThread { progress.visibility = android.view.View.GONE; log("Erro download: ${e.message}") } }
             }.start()
         }
 
@@ -131,9 +135,10 @@ class MainActivity : AppCompatActivity() {
             val mc = vanilla[spinnerVersion.selectedItemPosition]
             val loader = ModLoader.values()[spinnerModloader.selectedItemPosition]
             log("Iniciando download total no celular...")
+            progress.visibility = android.view.View.VISIBLE
             Thread {
-                try { FullDownloadManager.downloadAll(mc.id, mc.url, loader, baseDir()) { m -> runOnUiThread { log(m) } } }
-                catch (e: Exception) { runOnUiThread { log("Erro total: ${e.message}") } }
+                try { FullDownloadManager.downloadAll(mc.id, mc.url, loader, baseDir()) { m -> runOnUiThread { log(m) } }; runOnUiThread { progress.visibility = android.view.View.GONE } }
+                catch (e: Exception) { runOnUiThread { progress.visibility = android.view.View.GONE; log("Erro total: ${e.message}") } }
             }.start()
         }
 
@@ -147,12 +152,13 @@ class MainActivity : AppCompatActivity() {
             val forge = forgeList.getOrNull(spinnerForge.selectedItemPosition) ?: "latest"
             val opti = optiList.getOrNull(spinnerOpti.selectedItemPosition) ?: optiList.first()
             log("Forge $forge + OptiFine $opti p/ $mc ...")
+            progress.visibility = android.view.View.VISIBLE
             Thread {
                 try {
                     ModLoaderManager.installForge(mc, forge, baseDir()) { m -> runOnUiThread { log(m) } }
                     val ok = ModLoaderManager.importOptifineFromDownload(mc, opti, baseDir()) { m -> runOnUiThread { log(m) } }
-                    runOnUiThread { if (ok) log("Pronto: jogue com Forge + OptiFine!") }
-                } catch (e: Exception) { runOnUiThread { log("Erro: ${e.message}") } }
+                    runOnUiThread { progress.visibility = android.view.View.GONE; if (ok) log("Pronto: jogue com Forge + OptiFine!") }
+                } catch (e: Exception) { runOnUiThread { progress.visibility = android.view.View.GONE; log("Erro: ${e.message}") } }
             }.start()
         }
 

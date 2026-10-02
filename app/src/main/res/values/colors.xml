@@ -1,5 +1,12 @@
 <resources>
+    <color name="mikael_bg">#0E0F0C</color>
+    <color name="mikael_surface">#1B1E16</color>
     <color name="mikael_green">#5EBB2B</color>
+    <color name="mikael_green_dark">#3E8E1B</color>
     <color name="mikael_dirt">#7A5230</color>
+    <color name="mikael_gold">#FFC107</color>
+    <color name="mikael_text">#EDEDED</color>
+    <color name="mikael_hint">#9A9A8E</color>
+    <color name="mikael_log">#C6E6A3</color>
     <color name="mikael_dark">#1B1B1B</color>
 </resources>

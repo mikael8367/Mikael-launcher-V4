@@ -1,111 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/mikael_bg">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="16dp">
 
     <ImageView
-        android:layout_width="240dp"
-        android:layout_height="72dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
         android:src="@drawable/app_banner"
         android:contentDescription="@string/app_name" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="MIKAEL LAUNCHER"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/mikael_text" />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/accounts_label" android:layout_marginTop="12dp" />
-    <Spinner android:id="@+id/spinnerAccounts"
-        android:layout_width="match_parent" android:layout_height="wrap_content" />
-    <Spinner android:id="@+id/spinnerAccType"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
-    <EditText android:id="@+id/inputUsername"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="@string/username_hint" />
-    <EditText android:id="@+id/inputEmail"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="@string/email_hint" android:inputType="textEmailAddress" />
-    <EditText android:id="@+id/inputPass"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="@string/pass_hint" android:inputType="textPassword" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
+        android:text="Minecraft Java no Android"
+        android:textColor="@color/mikael_hint" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginTop="8dp">
-        <Button android:id="@+id/btnAdd"
-            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
-            android:text="@string/add_account" />
-        <Button android:id="@+id/btnRemove"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/MikaelCard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView style="@style/MikaelSectionTitle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="@string/remove" />
+            android:text="Conta" android:layout_marginBottom="8dp" />
+
+        <Spinner android:id="@+id/spinnerAccounts"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <Spinner android:id="@+id/spinnerAccType"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+        <EditText android:id="@+id/inputUsername"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="@string/username_hint"
+            android:textColor="@color/mikael_text"
+            android:textColorHint="@color/mikael_hint" />
+        <EditText android:id="@+id/inputEmail"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="@string/email_hint" android:inputType="textEmailAddress"
+            android:textColor="@color/mikael_text"
+            android:textColorHint="@color/mikael_hint" />
+        <EditText android:id="@+id/inputPass"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="@string/pass_hint" android:inputType="textPassword"
+            android:textColor="@color/mikael_text"
+            android:textColorHint="@color/mikael_hint" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="8dp">
+            <Button android:id="@+id/btnAdd"
+                android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="@string/add_account" style="@style/MikaelButton" />
+            <Space android:layout_width="8dp" android:layout_height="wrap_content" />
+            <Button android:id="@+id/btnRemove"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/remove" style="@style/MikaelButton" />
+        </LinearLayout>
+        <Button android:id="@+id/btnMicrosoft"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ms_login" style="@style/MikaelButton" />
     </LinearLayout>
-    <Button android:id="@+id/btnMicrosoft"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="@string/ms_login" />
+    </com.google.android.material.card.MaterialCardView>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/version_label" android:layout_marginTop="12dp" />
-    <Spinner android:id="@+id/spinnerVersion"
-        android:layout_width="match_parent" android:layout_height="wrap_content" />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/MikaelCard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/modloader_label" android:layout_marginTop="8dp" />
-    <Spinner android:id="@+id/spinnerModloader"
-        android:layout_width="match_parent" android:layout_height="wrap_content" />
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/forge_label" android:layout_marginTop="8dp" />
-    <Spinner android:id="@+id/spinnerForge"
-        android:layout_width="match_parent" android:layout_height="wrap_content" />
-
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/optifine_label" android:layout_marginTop="8dp" />
-    <Spinner android:id="@+id/spinnerOptiFine"
-        android:layout_width="match_parent" android:layout_height="wrap_content" />
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginTop="8dp">
-        <Button android:id="@+id/btnForgeOpti"
-            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
-            android:text="@string/download_forge_opti" />
-        <Button android:id="@+id/btnOptiPage"
+        <TextView style="@style/MikaelSectionTitle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="@string/open_opti_page" />
-    </LinearLayout>
+            android:text="Versão e Mods" android:layout_marginBottom="8dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginTop="8dp">
+        <TextView style="@style/MikaelLabel"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/version_label" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Spinner android:id="@+id/spinnerVersion"
+                android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" />
+            <Button android:id="@+id/btnRefreshVersions"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="↻" style="@style/MikaelButton" />
+        </LinearLayout>
+
+        <TextView style="@style/MikaelLabel"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/modloader_label" android:layout_marginTop="8dp" />
+        <Spinner android:id="@+id/spinnerModloader"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <TextView style="@style/MikaelLabel"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/forge_label" android:layout_marginTop="8dp" />
+        <Spinner android:id="@+id/spinnerForge"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <TextView style="@style/MikaelLabel"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/optifine_label" android:layout_marginTop="8dp" />
+        <Spinner android:id="@+id/spinnerOptiFine"
+            android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="8dp">
+            <Button android:id="@+id/btnForgeOpti"
+                android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="@string/download_forge_opti" style="@style/MikaelButton.Gold" />
+            <Space android:layout_width="8dp" android:layout_height="wrap_content" />
+            <Button android:id="@+id/btnOptiPage"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/open_opti_page" style="@style/MikaelButton" />
+        </LinearLayout>
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/MikaelCard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView style="@style/MikaelSectionTitle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Downloads" android:layout_marginBottom="8dp" />
+
         <Button android:id="@+id/btnDownload"
-            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
-            android:text="@string/download" />
-        <Button android:id="@+id/btnRefreshVersions"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="↻" />
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/download" style="@style/MikaelButton" />
+        <Button android:id="@+id/btnDownloadAll"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/download_all" style="@style/MikaelButton.Gold" />
+        <ProgressBar android:id="@+id/downloadProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
     </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    <TextView android:id="@+id/labelRam"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="@string/ram_label" android:layout_marginTop="12dp" />
-    <SeekBar android:id="@+id/seekRam"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:max="6144" android:min="1024" android:progress="2048" />
-    <Button android:id="@+id/btnDownloadAll"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="@string/download_all" />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        style="@style/MikaelCard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView style="@style/MikaelSectionTitle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Desempenho" android:layout_marginBottom="8dp" />
+
+        <TextView android:id="@+id/labelRam"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/ram_label"
+            android:textColor="@color/mikael_text" />
+        <SeekBar android:id="@+id/seekRam"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:max="6144" android:min="1024" android:progress="2048"
+            android:progressTint="@color/mikael_green"
+            android:thumbTint="@color/mikael_gold" />
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <Button android:id="@+id/btnPlay"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="@string/play" android:layout_marginTop="16dp" />
-    <TextView android:id="@+id/txtLog"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:fontFamily="monospace" android:text="@string/log_idle"
-        android:layout_marginTop="16dp" />
+        android:layout_width="match_parent" android:layout_height="64dp"
+        android:text="@string/play" android:textSize="20sp"
+        android:layout_marginBottom="12dp"
+        style="@style/MikaelButton.Play" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MikaelCard">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView style="@style/MikaelSectionTitle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Console" android:layout_marginBottom="8dp" />
+
+        <TextView android:id="@+id/txtLog"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="@string/log_idle"
+            android:textColor="@color/mikael_log" />
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>
 </ScrollView>
